@@ -1,0 +1,35 @@
+package com.zilli
+
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+
+class SimModule(private val activity: AppCompatActivity) {
+    private lateinit var characterView: ImageView
+    private lateinit var fadeIn: Animation
+    private lateinit var fadeOut: Animation
+
+    fun initSimulation() {
+        characterView = activity.findViewById(R.id.characterView)
+        fadeIn = AnimationUtils.loadAnimation(activity, R.anim.fade_in)
+        fadeOut = AnimationUtils.loadAnimation(activity, R.anim.fade_out)
+    }
+
+    fun showCharacter() {
+        characterView.visibility = View.VISIBLE
+        characterView.startAnimation(fadeIn)
+    }
+
+    fun hideCharacter() {
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationEnd(animation: Animation?) {
+                characterView.visibility = View.INVISIBLE
+            }
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+        characterView.startAnimation(fadeOut)
+    }
+}
